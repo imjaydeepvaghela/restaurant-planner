@@ -144,7 +144,3 @@ src/
 - **Export Functionality**: Export reservations to CSV/PDF
 - **User Authentication**: Multi-user support with roles
 - **Real-time Updates**: WebSocket integration for live updates
-
-## License
-
-This project is created for demonstration purposes as part of a frontend development assessment.
