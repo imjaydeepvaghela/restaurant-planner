@@ -2,6 +2,10 @@
 
 This repository contains Angular practical projects and exercises developed as part of the WebOccult Angular learning program.
 
+# Demonstration Recording Link:
+## 🎥 Demo
+[Watch the demo here](https://www.loom.com/share/175e41e7f15f44ca8a258c3f71e82310?sid=68b2f834-8c6c-41bd-bbe3-42b34a88d96e)
+
 ## Projects
 
 ### 🍽️ Restaurant Planner
