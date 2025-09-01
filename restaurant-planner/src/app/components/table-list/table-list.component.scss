@@ -1,0 +1,209 @@
+.table-list-container {
+  overflow-x: auto;
+  position: relative;
+}
+
+.table-header {
+  display: flex;
+  background: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+  min-width: 1080px; // Match timeline width
+}
+
+.current-time-indicator {
+  position: absolute;
+  top: 8px;
+  bottom: 0;
+  z-index: 10;
+  pointer-events: none;
+  
+  .time-label {
+    position: absolute;
+    top: -8px;
+    left: -20px;
+    background: #007bff;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 600;
+    white-space: nowrap;
+    z-index: 11;
+  }
+  
+  .time-line {
+    width: 2px;
+    height: calc(100vh - 200px); // Extend through all table rows
+    background: #007bff;
+    position: relative;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: -4px;
+      left: -3px;
+      width: 8px;
+      height: 8px;
+      background: #007bff;
+      border-radius: 50%;
+    }
+  }
+}
+
+.table-label {
+  width: 120px;
+  padding: 12px 16px;
+  font-weight: 600;
+  color: #495057;
+  border-right: 1px solid #e9ecef;
+  display: flex;
+  align-items: center;
+}
+
+.time-slots-header {
+  display: flex;
+  flex: 1;
+}
+
+.time-slot-header {
+  width: 60px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 500;
+  color: #6c757d;
+  padding: 12px 4px;
+  border-right: 1px solid #e9ecef;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.table-rows {
+  min-width: 1080px;
+}
+
+.table-row {
+  display: flex;
+  border-bottom: 1px solid #e9ecef;
+  min-height: 60px;
+  
+  &:hover {
+    background-color: #f8f9fa;
+  }
+}
+
+.table-info {
+  width: 120px;
+  padding: 12px 16px;
+  border-right: 1px solid #e9ecef;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  
+  .table-name {
+    font-weight: 600;
+    color: #212529;
+    margin-bottom: 4px;
+  }
+  
+  .table-capacity {
+    font-size: 12px;
+    color: #6c757d;
+  }
+}
+
+.time-slots-row {
+  display: flex;
+  flex: 1;
+  position: relative;
+}
+
+.time-slot-cell {
+  width: 60px;
+  border-right: 1px solid #e9ecef;
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  
+  &.available {
+    background-color: #f8f9fa;
+    
+    &:hover {
+      background-color: #e9ecef;
+    }
+  }
+  
+  &.occupied {
+    background-color: #f8f9fa;
+  }
+  
+  &.past-time {
+    background-color: #f1f3f4;
+    cursor: not-allowed;
+    opacity: 0.5;
+    
+    &:hover {
+      background-color: #f1f3f4;
+    }
+  }
+}
+
+.reservation-block {
+  position: absolute;
+  top: 2px;
+  bottom: 2px;
+  background: #e3f2fd;
+  border: 1px solid #90caf9;
+  border-radius: 4px;
+  padding: 4px 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  overflow: hidden;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  padding: 0 0 0 10px;
+  
+  &:hover {
+    background: #bbdefb;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    
+    .resize-handle {
+      opacity: 1;
+    }
+  }
+  
+  .reservation-content {
+    .customer-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1565c0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .party-size {
+      font-size: 12px;
+      color: #1976d2;
+      margin-top: 2px;
+    }
+  }
+  
+  .resize-handle {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 8px;
+    background: rgba(0, 0, 0, 0.2);
+    cursor: ew-resize;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    
+    &:hover {
+      background: rgba(0, 0, 0, 0.4);
+    }
+  }
+}

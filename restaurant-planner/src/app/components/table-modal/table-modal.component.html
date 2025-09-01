@@ -1,0 +1,64 @@
+<div class="modal-overlay" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2 class="modal-title">Create New Table</h2>
+      <button class="close-button" (click)="closeModal()">×</button>
+    </div>
+
+    <form [formGroup]="tableForm" (ngSubmit)="onSubmit()" class="table-form">
+      <div class="form-group">
+        <label for="tableName">Table Name</label>
+        <input 
+          type="text" 
+          id="tableName"
+          formControlName="name"
+          placeholder="Enter table name"
+          class="form-input"
+          [class.error]="tableForm.get('name')?.invalid && tableForm.get('name')?.touched">
+        <div 
+          *ngIf="tableForm.get('name')?.invalid && tableForm.get('name')?.touched"
+          class="error-message">
+          Table name is required and must be at least 2 characters.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="capacity">Capacity</label>
+        <input 
+          type="number" 
+          id="capacity"
+          formControlName="capacity"
+          placeholder="Enter seating capacity"
+          min="1"
+          max="20"
+          class="form-input"
+          [class.error]="tableForm.get('capacity')?.invalid && tableForm.get('capacity')?.touched">
+        <div 
+          *ngIf="tableForm.get('capacity')?.invalid && tableForm.get('capacity')?.touched"
+          class="error-message">
+          Please enter a valid capacity between 1 and 20.
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">
+          Cancel
+        </button>
+        <button 
+          type="submit" 
+          class="btn btn-primary"
+          [disabled]="tableForm.invalid">
+          Create Table
+        </button>
+      </div>
+
+      <div *ngIf="errorMessage" class="alert alert-error">
+        {{ errorMessage }}
+      </div>
+
+      <div *ngIf="successMessage" class="alert alert-success">
+        {{ successMessage }}
+      </div>
+    </form>
+  </div>
+</div>

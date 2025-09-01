@@ -1,0 +1,211 @@
+<div class="planner-container">
+  <!-- Header -->
+  <header class="planner-header">
+    <div class="header-left">
+      <h1 class="app-title">Restaurant Planner</h1>
+      
+      <!-- View Mode Toggle -->
+      <div class="view-toggle">
+        <button 
+          class="toggle-btn"
+          [class.active]="viewMode === 'planner'"
+          (click)="setViewMode('planner')">
+          <i class="icon-calendar"></i>
+          Planner
+        </button>
+        <button 
+          class="toggle-btn"
+          [class.active]="viewMode === 'list'"
+          (click)="setViewMode('list')">
+          <i class="icon-list"></i>
+          List
+        </button>
+      </div>
+    </div>
+    
+    <div class="header-right">
+      <div class="date-picker">
+        <input 
+          type="date" 
+          [value]="selectedDate" 
+          (change)="onDateChange($any($event.target).value)"
+          class="date-input">
+      </div>
+      
+      <div class="action-buttons">
+        <button 
+          class="btn btn-secondary" 
+          (click)="onNewReservation()">
+          <i class="icon-calendar"></i>
+          New Reservation
+        </button>
+        <button 
+          class="btn btn-primary" 
+          (click)="onCreateTable()">
+          + Create Table
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="planner-main">
+    <!-- Main View (Default) -->
+    <div *ngIf="showMainView" class="main-view">
+      <div class="welcome-section">
+        <h2 class="welcome-title">Welcome to Restaurant Planner</h2>
+        <p class="welcome-description">Choose a view to start managing your restaurant</p>
+        
+        <div class="view-options">
+          <button 
+            class="view-option-btn planner-option"
+            (click)="setViewMode('planner')">
+            <div class="option-icon">
+              <i class="icon-calendar"></i>
+            </div>
+            <div class="option-content">
+              <h3>Planner View</h3>
+              <p>Timeline view for managing reservations and tables</p>
+            </div>
+          </button>
+          
+          <button 
+            class="view-option-btn list-option"
+            (click)="setViewMode('list')">
+            <div class="option-icon">
+              <i class="icon-list"></i>
+            </div>
+            <div class="option-content">
+              <h3>List View</h3>
+              <p>Tabular view for managing tables and reservations</p>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Back Button (shown when not in main view) -->
+    <div *ngIf="!showMainView" class="back-button-container">
+      <button class="back-btn" (click)="backToMainView()">
+        <i class="icon-back"></i>
+        Back to Main
+      </button>
+    </div>
+
+    <!-- Planner View -->
+    <div *ngIf="viewMode === 'planner' && !showMainView" class="planner-view">
+      <div class="timeline-section">
+        <h2 class="section-title">Today's Timeline</h2>
+        
+        <div class="timeline-container">
+          <app-table-list 
+            [tables]="(tables$ | async) || []"
+            [reservations]="(getReservationsForDate() | async) || []"
+            [selectedDate]="selectedDate"
+            [timeSlots]="timeSlots"
+            [currentTime]="currentTime"
+            [getCurrentTimePosition]="getCurrentTimePosition.bind(this)"
+            (timeSlotClick)="onTimeSlotClick($event.timeSlot, $event.tableId)">
+          </app-table-list>
+        </div>
+      </div>
+    </div>
+
+    <!-- List View -->
+    <div *ngIf="viewMode === 'list' && !showMainView" class="list-view">
+      <!-- Tabs -->
+      <div class="tabs-container">
+        <div class="tabs">
+          <button 
+            class="tab-btn"
+            [class.active]="activeTab === 'tables'"
+            (click)="setActiveTab('tables')">
+            Tables
+          </button>
+          <button 
+            class="tab-btn"
+            [class.active]="activeTab === 'reservations'"
+            (click)="setActiveTab('reservations')">
+            Reservations
+          </button>
+        </div>
+      </div>
+
+      <!-- Tables Tab Content -->
+      <div *ngIf="activeTab === 'tables'" class="tab-content">
+        <div class="content-header">
+          <h2 class="section-title">All Tables</h2>
+          <div class="date-picker">
+            <i class="icon-calendar"></i>
+            <input 
+              type="date" 
+              [value]="selectedDate" 
+              (change)="onDateChange($any($event.target).value)"
+              class="date-input">
+          </div>
+        </div>
+        
+        <div class="tables-grid">
+          <div *ngFor="let table of (getTablesForList() | async)" class="table-card">
+            <div class="table-info">
+              <h3 class="table-name">{{ table.name }}</h3>
+              <p class="table-capacity">Capacity: {{ table.capacity }} persons</p>
+            </div>
+            <div class="table-actions">
+              <button class="action-btn delete-btn" title="Delete Table" (click)="onDeleteTable(table.id)">
+                <i class="icon-delete"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reservations Tab Content -->
+      <div *ngIf="activeTab === 'reservations'" class="tab-content">
+        <div class="content-header">
+          <h2 class="section-title">All Reservations</h2>
+          <div class="date-picker">
+            <i class="icon-calendar"></i>
+            <input 
+              type="date" 
+              [value]="selectedDate" 
+              (change)="onDateChange($any($event.target).value)"
+              class="date-input">
+          </div>
+        </div>
+        
+        <div class="reservations-list">
+          <div *ngFor="let reservation of (getReservationsForList() | async)" class="reservation-item">
+            <div class="reservation-info">
+              <h3 class="customer-name">{{ reservation.customerName }}</h3>
+              <p class="reservation-details">
+                {{ reservation.startTime }} - {{ reservation.endTime }} • 
+                {{ reservation.numberOfPersons }} persons • 
+                Table {{ getTableName(reservation.tableId) }}
+              </p>
+            </div>
+            <div class="reservation-actions">
+              <button class="action-btn delete-btn" title="Delete Reservation" (click)="onDeleteReservation(reservation.id)">
+                <i class="icon-delete"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modals -->
+  <app-reservation-modal 
+    *ngIf="showReservationModal"
+    [selectedTimeSlot]="selectedTimeSlot"
+    [selectedTableId]="selectedTableId"
+    [selectedDate]="selectedDate"
+    (close)="onReservationModalClose()">
+  </app-reservation-modal>
+
+  <app-table-modal 
+    *ngIf="showTableModal"
+    (close)="onTableModalClose()">
+  </app-table-modal>
+</div>

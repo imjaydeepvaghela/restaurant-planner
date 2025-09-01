@@ -1,0 +1,68 @@
+.timeline-header {
+  position: relative;
+  background: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+  padding: 12px 0;
+  overflow-x: auto;
+}
+
+.time-slots {
+  display: flex;
+  min-width: 1080px; // 18 hours * 60px per hour
+  position: relative;
+}
+
+.time-slot {
+  width: 60px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 500;
+  color: #6c757d;
+  padding: 8px 4px;
+  border-right: 1px solid #e9ecef;
+  position: relative;
+  
+  &.current-time {
+    color: #007bff;
+    font-weight: 600;
+  }
+}
+
+.current-time-indicator {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 10;
+  pointer-events: none;
+  
+  .time-label {
+    position: absolute;
+    top: -8px;
+    left: -20px;
+    background: #007bff;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  
+  .time-line {
+    width: 2px;
+    height: 100%;
+    background: #007bff;
+    position: relative;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: -4px;
+      left: -3px;
+      width: 8px;
+      height: 8px;
+      background: #007bff;
+      border-radius: 50%;
+    }
+  }
+}

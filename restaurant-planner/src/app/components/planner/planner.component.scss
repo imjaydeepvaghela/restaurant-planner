@@ -1,0 +1,609 @@
+.planner-container {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.planner-header {
+  background: white;
+  border-bottom: 1px solid #e9ecef;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+
+  .app-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: #212529;
+    margin: 0;
+  }
+}
+
+// View Toggle Styles
+.view-toggle {
+  display: flex;
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 4px;
+  gap: 2px;
+
+  .toggle-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border: none;
+    background: transparent;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #6c757d;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      color: #495057;
+      background: rgba(0, 0, 0, 0.05);
+    }
+
+    &.active {
+      background: #495057;
+      color: white;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    i {
+      font-size: 16px;
+    }
+  }
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.date-picker {
+  .date-input {
+    padding: 8px 12px;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    font-size: 14px;
+    background: white;
+    
+    &:focus {
+      outline: none;
+      border-color: #007bff;
+      box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+    }
+  }
+}
+
+.action-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.planner-main {
+  padding: 24px;
+}
+
+// Main View Styles
+.main-view {
+  .welcome-section {
+    text-align: center;
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+
+    .welcome-title {
+      font-size: 32px;
+      font-weight: 700;
+      color: #212529;
+      margin-bottom: 16px;
+    }
+
+    .welcome-description {
+      font-size: 18px;
+      color: #6c757d;
+      margin-bottom: 48px;
+    }
+
+    .view-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      max-width: 600px;
+      margin: 0 auto;
+
+      .view-option-btn {
+        background: white;
+        border: 2px solid #e9ecef;
+        border-radius: 16px;
+        padding: 32px 24px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        text-align: left;
+
+        &:hover {
+          border-color: #007bff;
+          transform: translateY(-4px);
+          box-shadow: 0 8px 25px rgba(0, 123, 255, 0.15);
+        }
+
+        .option-icon {
+          width: 60px;
+          height: 60px;
+          border-radius: 12px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 24px;
+          flex-shrink: 0;
+        }
+
+        .option-content {
+          h3 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #212529;
+            margin: 0 0 8px 0;
+          }
+
+          p {
+            font-size: 14px;
+            color: #6c757d;
+            margin: 0;
+            line-height: 1.5;
+          }
+        }
+
+        &.planner-option {
+          .option-icon {
+            background: #e3f2fd;
+            color: #1976d2;
+          }
+        }
+
+        &.list-option {
+          .option-icon {
+            background: #f3e5f5;
+            color: #7b1fa2;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Back Button Styles
+.back-button-container {
+  margin-bottom: 24px;
+
+  .back-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    color: #495057;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: #e9ecef;
+      border-color: #adb5bd;
+      transform: translateX(-2px);
+    }
+
+    i {
+      font-size: 16px;
+    }
+  }
+}
+
+// Planner View Styles
+.planner-view {
+  .timeline-section {
+    .section-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: #212529;
+      margin-bottom: 20px;
+    }
+  }
+
+  .timeline-container {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+}
+
+// List View Styles
+.list-view {
+  .tabs-container {
+    margin-bottom: 24px;
+
+    .tabs {
+      display: flex;
+      background: white;
+      border-radius: 8px;
+      padding: 4px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      gap: 2px;
+
+      .tab-btn {
+        flex: 1;
+        padding: 12px 24px;
+        border: none;
+        background: transparent;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #6c757d;
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        &:hover {
+          color: #495057;
+          background: rgba(0, 0, 0, 0.05);
+        }
+
+        &.active {
+          background: #007bff;
+          color: white;
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+      }
+    }
+  }
+
+  .tab-content {
+    .content-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+
+      .section-title {
+        font-size: 20px;
+        font-weight: 600;
+        color: #212529;
+        margin: 0;
+      }
+
+      .date-picker {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 16px;
+        background: white;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        transition: all 0.2s ease;
+
+        &:hover {
+          border-color: #007bff;
+          box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
+        }
+
+        i {
+          font-size: 16px;
+          color: #6c757d;
+        }
+
+        .date-input {
+          border: none;
+          background: transparent;
+          font-size: 14px;
+          color: #495057;
+          cursor: pointer;
+          outline: none;
+          
+          &:focus {
+            outline: none;
+          }
+        }
+      }
+    }
+
+    // Tables Grid
+    .tables-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+
+      .table-card {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        transition: all 0.2s ease;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        &:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .table-info {
+          .table-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #212529;
+            margin: 0 0 8px 0;
+          }
+
+          .table-capacity {
+            font-size: 14px;
+            color: #6c757d;
+            margin: 0;
+          }
+        }
+
+        .table-actions {
+          display: flex;
+          gap: 8px;
+
+          .action-btn {
+            width: 36px;
+            height: 36px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            &.edit-btn {
+              background: #e3f2fd;
+              color: #1976d2;
+
+              &:hover {
+                background: #bbdefb;
+                transform: scale(1.05);
+              }
+            }
+
+            &.delete-btn {
+              background: #ffebee;
+              color: #d32f2f;
+
+              &:hover {
+                background: #ffcdd2;
+                transform: scale(1.05);
+              }
+            }
+
+            i {
+              font-size: 16px;
+            }
+          }
+        }
+      }
+    }
+
+    // Reservations List
+    .reservations-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+
+      .reservation-item {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        transition: all 0.2s ease;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        &:hover {
+          transform: translateY(-1px);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .reservation-info {
+          .customer-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #212529;
+            margin: 0 0 8px 0;
+          }
+
+          .reservation-details {
+            font-size: 14px;
+            color: #6c757d;
+            margin: 0;
+          }
+        }
+
+        .reservation-actions {
+          display: flex;
+          gap: 8px;
+
+          .action-btn {
+            width: 36px;
+            height: 36px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            &.edit-btn {
+              background: #e3f2fd;
+              color: #1976d2;
+
+              &:hover {
+                background: #bbdefb;
+                transform: scale(1.05);
+              }
+            }
+
+            &.delete-btn {
+              background: #ffebee;
+              color: #d32f2f;
+
+              &:hover {
+                background: #ffcdd2;
+                transform: scale(1.05);
+              }
+            }
+
+            i {
+              font-size: 16px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Button Styles
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  &.btn-primary {
+    background: #007bff;
+    color: white;
+
+    &:hover {
+      background: #0056b3;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+    }
+  }
+
+  &.btn-secondary {
+    background: #6c757d;
+    color: white;
+
+    &:hover {
+      background: #545b62;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+    }
+  }
+
+  i {
+    font-size: 16px;
+  }
+}
+
+// Icon Styles (you can replace these with your preferred icon library)
+.icon-calendar::before { content: "📅"; }
+.icon-list::before { content: "📋"; }
+.icon-edit::before { content: "✏️"; }
+.icon-delete::before { content: "🗑️"; }
+.icon-dropdown::before { content: "▼"; }
+.icon-back::before { content: "←"; }
+
+// Responsive Design
+@media (max-width: 768px) {
+  .planner-header {
+    flex-direction: column;
+    gap: 16px;
+    align-items: stretch;
+
+    .header-left {
+      flex-direction: column;
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .header-right {
+      flex-direction: column;
+      gap: 16px;
+    }
+  }
+
+  .view-toggle {
+    justify-content: center;
+  }
+
+  .tabs {
+    flex-direction: column;
+  }
+
+  .content-header {
+    flex-direction: column;
+    gap: 16px;
+    align-items: stretch;
+  }
+
+  .tables-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .main-view {
+    .welcome-section {
+      padding: 40px 20px;
+
+      .welcome-title {
+        font-size: 24px;
+      }
+
+      .welcome-description {
+        font-size: 16px;
+      }
+
+      .view-options {
+        grid-template-columns: 1fr;
+        gap: 16px;
+
+        .view-option-btn {
+          padding: 24px 20px;
+          flex-direction: column;
+          text-align: center;
+          gap: 16px;
+
+          .option-icon {
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
+          }
+
+          .option-content {
+            h3 {
+              font-size: 18px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

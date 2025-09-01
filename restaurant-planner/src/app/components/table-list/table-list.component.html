@@ -1,0 +1,66 @@
+<div class="table-list-container">
+  <!-- Header -->
+  <div class="table-header">
+    <div class="table-label">Tables</div>
+    <div class="time-slots-header">
+      <div 
+        *ngFor="let timeSlot of timeSlots" 
+        class="time-slot-header">
+        {{ timeSlot }}
+      </div>
+    </div>
+  </div>
+
+  <!-- Current Time Indicator -->
+  <div 
+    class="current-time-indicator"
+    [style.left.px]="getCurrentTimePosition() + 120">
+    <div class="time-label">{{ currentTime }}</div>
+    <div class="time-line"></div>
+  </div>
+
+  <!-- Table Rows -->
+  <div class="table-rows">
+    <div *ngFor="let table of tables" class="table-row">
+      
+      <!-- Table Info -->
+      <div class="table-info">
+        <div class="table-name">{{ table.name }}</div>
+        <div class="table-capacity">Cap: {{ table.capacity }}</div>
+      </div>
+      
+      <!-- Time Slots Row (Grid + Reservations Layer) -->
+      <div class="time-slots-row">
+        
+        <!-- Background Grid Cells -->
+        <div 
+          *ngFor="let timeSlot of timeSlots" 
+          class="time-slot-cell"
+          [class.available]="isTimeSlotAvailable(table.id, timeSlot)"
+          [class.occupied]="!isTimeSlotAvailable(table.id, timeSlot)"
+          [class.past-time]="isTimeSlotInPast(timeSlot)"
+          (click)="onTimeSlotClick(timeSlot, table.id)">
+        </div>
+
+        <!-- Reservation Blocks (absolute positioning) -->
+        <div 
+          *ngFor="let reservation of getReservationsForTableSorted(table.id)"
+          class="reservation-block"
+          [class.has-overlap]="hasOverlappingReservations(reservation)"
+          [style.left.px]="getReservationPosition(reservation).left"
+          [style.width.px]="getReservationPosition(reservation).width * 2"
+          [style.top.px]="2 + getReservationVerticalOffset(reservation)"
+          [style.z-index]="getReservationZIndex(reservation)"
+          [title]="reservation.customerName + ' (' + reservation.numberOfPersons + ' persons) - Drag to resize'"
+          (mousedown)="onReservationMouseDown($event, reservation)">
+          
+          <div class="reservation-content">
+            <div class="customer-name">{{ reservation.customerName }}</div>
+            <div class="party-size">{{ reservation.numberOfPersons }} persons</div>
+          </div>
+          <div class="resize-handle"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

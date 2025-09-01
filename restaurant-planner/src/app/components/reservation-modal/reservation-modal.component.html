@@ -1,0 +1,84 @@
+<div class="modal-overlay" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2 class="modal-title">Create New Reservation</h2>
+      <button class="close-button" (click)="closeModal()">×</button>
+    </div>
+
+    <form [formGroup]="reservationForm" (ngSubmit)="onSubmit()" class="reservation-form">
+      <div class="form-group">
+        <label for="customerName">Guest Name</label>
+        <input 
+          type="text" 
+          id="customerName"
+          formControlName="customerName"
+          placeholder="Enter guest name"
+          class="form-input"
+          [class.error]="reservationForm.get('customerName')?.invalid && reservationForm.get('customerName')?.touched">
+        <div 
+          *ngIf="reservationForm.get('customerName')?.invalid && reservationForm.get('customerName')?.touched"
+          class="error-message">
+          Guest name is required and must be at least 2 characters.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="numberOfPersons">Number of Persons</label>
+        <input 
+          type="number" 
+          id="numberOfPersons"
+          formControlName="numberOfPersons"
+          placeholder="Enter number of persons"
+          min="1"
+          max="20"
+          class="form-input"
+          [class.error]="reservationForm.get('numberOfPersons')?.invalid && reservationForm.get('numberOfPersons')?.touched">
+        <div 
+          *ngIf="reservationForm.get('numberOfPersons')?.invalid && reservationForm.get('numberOfPersons')?.touched"
+          class="error-message">
+          Please enter a valid number between 1 and 20.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Time Slot</label>
+        <div class="time-slot-grid">
+          <button 
+            *ngFor="let timeSlot of timeSlots" 
+            type="button"
+            class="time-slot-button"
+            [class.selected]="timeSlot.isSelected"
+            [class.available]="timeSlot.isAvailable"
+            (click)="onTimeSlotSelect(timeSlot)">
+            {{ timeSlot.display }}
+          </button>
+        </div>
+        <div 
+          *ngIf="reservationForm.get('startTime')?.invalid && reservationForm.get('startTime')?.touched"
+          class="error-message">
+          Please select a time slot.
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">
+          Cancel
+        </button>
+        <button 
+          type="submit" 
+          class="btn btn-primary"
+          [disabled]="reservationForm.invalid">
+          Create Reservation
+        </button>
+      </div>
+
+      <div *ngIf="errorMessage" class="alert alert-error">
+        {{ errorMessage }}
+      </div>
+
+      <div *ngIf="successMessage" class="alert alert-success">
+        {{ successMessage }}
+      </div>
+    </form>
+  </div>
+</div>

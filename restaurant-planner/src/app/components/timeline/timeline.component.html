@@ -1,0 +1,18 @@
+<div class="timeline-header">
+  <div class="time-slots">
+    <div 
+      *ngFor="let timeSlot of timeSlots; let i = index" 
+      class="time-slot"
+      [class.current-time]="isCurrentTime(i + 6)">
+      {{ timeSlot }}
+    </div>
+  </div>
+  
+  <!-- Current time indicator -->
+  <div 
+    class="current-time-indicator"
+    [style.left.px]="getCurrentTimePosition() * 60">
+    <div class="time-label">{{ currentTime }}</div>
+    <div class="time-line"></div>
+  </div>
+</div>
