@@ -144,22 +144,21 @@ export class TableListComponent implements OnInit {
     
     // Update the reservation duration
     const startHour = parseInt(this.draggedReservation.startTime.split(':')[0]);
-    const newEndHour = startHour + newDurationHours;
+    const requestedEndHour = startHour + newDurationHours;
     
-    if (newEndHour <= 23) { // Don't exceed 23:00
+    // Find the maximum allowed end time considering conflicts
+    const maxAllowedEndTime = this.getMaxAllowedEndTime(
+      this.draggedReservation.tableId,
+      this.draggedReservation.startTime,
+      this.draggedReservation.id
+    );
+    
+    const maxAllowedEndHour = parseInt(maxAllowedEndTime.split(':')[0]);
+    const newEndHour = Math.min(requestedEndHour, maxAllowedEndHour, 23); // Don't exceed 23:00
+    
+    if (newEndHour > startHour) { // Ensure we have at least 1 hour duration
       const newEndTime = `${newEndHour.toString().padStart(2, '0')}:00`;
-      
-      // Check for conflicts before updating
-      const hasConflict = this.checkReservationConflict(
-        this.draggedReservation.tableId,
-        this.draggedReservation.startTime,
-        newEndTime,
-        this.draggedReservation.id
-      );
-      
-      if (!hasConflict) {
-        this.draggedReservation.endTime = newEndTime;
-      }
+      this.draggedReservation.endTime = newEndTime;
     }
   }
 
@@ -185,6 +184,27 @@ export class TableListComponent implements OnInit {
     return tableReservations.some(res => {
       return this.timesOverlap(startTime, endTime, res.startTime, res.endTime);
     });
+  }
+
+  private getMaxAllowedEndTime(tableId: string, startTime: string, excludeReservationId: string): string {
+    const tableReservations = this.getReservationsForTable(tableId)
+      .filter(res => res.id !== excludeReservationId);
+    
+    const startMinutes = this.timeToMinutes(startTime);
+    
+    // Find all reservations that start after our start time
+    const futureReservations = tableReservations
+      .filter(res => this.timeToMinutes(res.startTime) > startMinutes)
+      .sort((a, b) => this.timeToMinutes(a.startTime) - this.timeToMinutes(b.startTime));
+    
+    // If there are no future reservations, we can extend to 23:00
+    if (futureReservations.length === 0) {
+      return '23:00';
+    }
+    
+    // Return the start time of the first future reservation
+    // This allows the current reservation to extend up to (but not including) the next reservation
+    return futureReservations[0].startTime;
   }
 
   private timesOverlap(start1: string, end1: string, start2: string, end2: string): boolean {
