@@ -48,7 +48,7 @@
           class="reservation-block"
           [class.has-overlap]="hasOverlappingReservations(reservation)"
           [style.left.px]="getReservationPosition(reservation).left"
-          [style.width.px]="getReservationPosition(reservation).width * 2"
+          [style.width.px]="getReservationPosition(reservation).width"
           [style.top.px]="2 + getReservationVerticalOffset(reservation)"
           [style.z-index]="getReservationZIndex(reservation)"
           [title]="reservation.customerName + ' (' + reservation.numberOfPersons + ' persons) - Drag to resize'"

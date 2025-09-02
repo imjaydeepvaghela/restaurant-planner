@@ -84,9 +84,11 @@ export class TableListComponent implements OnInit {
     // Timeline starts at 06:00
     const timelineStartMinutes = 6 * 60;
   
-    // 60px = 60 minutes → 1px per minute
+    // Position the reservation at the start of the time slot cell
     const left = (startMinutes - timelineStartMinutes);
-    const width = endMinutes - startMinutes;
+    
+    // Calculate width to fill all time slot cells the reservation spans
+    const width = (endMinutes - startMinutes) + 60;
   
     return { left, width };
   }
@@ -124,9 +126,10 @@ export class TableListComponent implements OnInit {
     this.dragStartX = event.clientX;
     this.draggedReservation = reservation;
     
-    const startHour = parseInt(reservation.startTime.split(':')[0]);
-    const endHour = parseInt(reservation.endTime.split(':')[0]);
-    this.dragStartWidth = (endHour - startHour) * 60;
+    // Store the actual duration in minutes for drag calculations
+    const startMinutes = this.timeToMinutes(reservation.startTime);
+    const endMinutes = this.timeToMinutes(reservation.endTime);
+    this.dragStartWidth = endMinutes - startMinutes;
     
     document.addEventListener('mousemove', this.onMouseMove.bind(this));
     document.addEventListener('mouseup', this.onMouseUp.bind(this));
