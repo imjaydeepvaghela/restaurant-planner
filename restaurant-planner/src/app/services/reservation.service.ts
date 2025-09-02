@@ -123,18 +123,38 @@ export class ReservationService {
     );
   }
 
-  createReservation(request: CreateReservationRequest): { success: boolean; reservation?: Reservation; conflict?: ReservationConflict } {
+  createReservation(request: CreateReservationRequest, selectedTableId?: string): { success: boolean; reservation?: Reservation; conflict?: ReservationConflict } {
     const endTime = this.calculateEndTime(request.startTime, 1); // Default 1 hour duration
     
-    // Find optimal table
-    const optimalTable = this.findOptimalTable(request.numberOfPersons, request.startTime, endTime, request.date);
+    let targetTable: Table | null = null;
     
-    if (!optimalTable) {
+    // If a specific table is selected, use it (but validate it's available)
+    if (selectedTableId) {
+      const currentTables = this.tableService['tablesSubject'].value;
+      const selectedTable = currentTables.find(table => table.id === selectedTableId);
+      
+      if (selectedTable && selectedTable.capacity >= request.numberOfPersons) {
+        // Check if the selected table is available for the requested time
+        const hasConflict = this.hasTimeConflict(selectedTableId, request.startTime, endTime, 
+          this.reservationsSubject.value.filter(res => res.date === request.date));
+        
+        if (!hasConflict) {
+          targetTable = selectedTable;
+        }
+      }
+    }
+    
+    // If no specific table was selected or the selected table is not available, find optimal table
+    if (!targetTable) {
+      targetTable = this.findOptimalTable(request.numberOfPersons, request.startTime, endTime, request.date);
+    }
+    
+    if (!targetTable) {
       return { success: false };
     }
 
     // Check for conflicts - this should prevent overlapping reservations
-    const conflict = this.checkForConflicts(optimalTable.id, request.startTime, endTime, request.date);
+    const conflict = this.checkForConflicts(targetTable.id, request.startTime, endTime, request.date);
     if (conflict) {
       return { success: false, conflict };
     }
@@ -145,7 +165,7 @@ export class ReservationService {
       startTime: request.startTime,
       endTime: endTime,
       numberOfPersons: request.numberOfPersons,
-      tableId: optimalTable.id,
+      tableId: targetTable.id,
       date: request.date
     };
 

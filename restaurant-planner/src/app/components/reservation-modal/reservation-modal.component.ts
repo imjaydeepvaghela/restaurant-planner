@@ -135,7 +135,7 @@ export class ReservationModalComponent implements OnInit {
         date: this.selectedDate
       };
 
-      const result = this.reservationService.createReservation(request);
+      const result = this.reservationService.createReservation(request, this.selectedTableId || undefined);
       
       if (result.success) {
         this.successMessage = 'Reservation created successfully!';
